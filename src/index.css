@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: #6c757d;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.main-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 0;
+}
+
+.user-container, .list-container {
+  width: 700px;
+}
+
+.user-container {
+  padding: 30px;
+  margin: 50px 0;
+}

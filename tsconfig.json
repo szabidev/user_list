@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                // Specifies the target ECMAScript version
+    "module": "ESNext",                // Specifies the module system
+    "jsx": "react",                    // Enables JSX support
+    "strict": true,                    // Enables strict type checking
+    "esModuleInterop": true,           // Enables interoperability between CommonJS and ES Modules
+    "skipLibCheck": true,              // Skip type checking of declaration files (recommended)
+    "forceConsistentCasingInFileNames": true,  // Enforces consistent file naming (case-sensitive)
+    "moduleResolution": "node",        // Resolves modules using Node.js-style module resolution
+    "resolveJsonModule": true,         // Allows importing JSON files as modules
+    "baseUrl": "./src",                // Base directory for resolving non-relative module names
+    "paths": {
+      "@/*": ["*"]                     // Path aliases for module resolution (optional)
+    },
+    "strictPropertyInitialization": false // Allows properties to be initialized later (optional)
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"], // Specifies the files to include in compilation
+  "exclude": ["node_modules"]          // Specifies files or directories to exclude from compilation
+}
