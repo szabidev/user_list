@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useRef } from "react";
 import Button from "../../UI/button/Button";
 import "./AddUser.css";
 import { UserData } from "@/App";
@@ -10,25 +10,21 @@ interface AddUserProps {
 }
 
 const AddUser: FC<AddUserProps> = ({ handleUser }) => {
-  const [userName, setUserName] = useState<string>("");
-  const [age, setAge] = useState<string>("");
   const [isValid, setIsValid] = useState<boolean>(true);
   const [errorMsg, setErrorMsg] = useState<string>("");
-
-  const handleUserName = (e: React.FormEvent<HTMLInputElement>) => {
-    console.log(e.currentTarget.value);
-    setUserName(e.currentTarget.value);
-  };
-
-  const handleAge = (e: React.FormEvent<HTMLInputElement>) => {
-    setAge(e.currentTarget.value);
-  };
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const ageInputRef = useRef<HTMLInputElement>(null);
 
   const handlePopUp = () => {
-    if (!userName && !age) {
+    if (
+      nameInputRef.current &&
+      !nameInputRef.current.value &&
+      ageInputRef.current &&
+      !ageInputRef.current.value
+    ) {
       setIsValid(false);
       setErrorMsg("No data entered, please complete the form");
-    } else if (Number(age) < 0) {
+    } else if (ageInputRef.current && Number(ageInputRef.current.value) < 0) {
       setIsValid(false);
       setErrorMsg("Please enter a valid age");
     } else {
@@ -38,17 +34,20 @@ const AddUser: FC<AddUserProps> = ({ handleUser }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (nameInputRef.current != null && ageInputRef.current != null) {
+      const enteredName = nameInputRef.current.value;
+      const enteredAge = ageInputRef.current.value;
 
-    const inputData = {
-      name: userName,
-      age: age,
-      id: Math.random().toString(),
-    };
-
-    handlePopUp();
-    handleUser(inputData);
-    setUserName("");
-    setAge("");
+      const inputData = {
+        name: enteredName,
+        age: enteredAge,
+        id: Math.random().toString(),
+      };
+      handlePopUp();
+      handleUser(inputData);
+      nameInputRef.current.value = "";
+      ageInputRef.current.value = "";
+    }
   };
 
   return (
@@ -60,8 +59,7 @@ const AddUser: FC<AddUserProps> = ({ handleUser }) => {
             type="text"
             id="username"
             placeholder="Enter username..."
-            onChange={handleUserName}
-            value={userName}
+            ref={nameInputRef}
           />
         </div>
         <div className="input-group">
@@ -70,8 +68,7 @@ const AddUser: FC<AddUserProps> = ({ handleUser }) => {
             type="number"
             id="age"
             placeholder="Enter age..."
-            onChange={handleAge}
-            value={age}
+            ref={ageInputRef}
           />
         </div>
         <div className="input-control">

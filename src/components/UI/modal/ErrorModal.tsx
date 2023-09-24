@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import ReactDOM from "react-dom";
 import Button from "../button/Button";
 import "./ErrorModal.css";
 
@@ -7,10 +8,12 @@ interface ErrorModalProps {
   setIsValid: (isValid: boolean) => void;
 }
 
-export const ErrorModal: FC<ErrorModalProps> = ({ message, setIsValid }) => {
-  const handleCancel = () => {
-    setIsValid(true);
-  };
+interface ModalOverlayProps {
+  message: string;
+  handleCancel: () => void;
+}
+
+const ModalOverlay: FC<ModalOverlayProps> = ({ message, handleCancel }) => {
   return (
     <div className="error-container" onClick={handleCancel}>
       <div className="error-message">
@@ -24,6 +27,20 @@ export const ErrorModal: FC<ErrorModalProps> = ({ message, setIsValid }) => {
         />
       </div>
     </div>
+  );
+};
+
+const ErrorModal: FC<ErrorModalProps> = ({ message, setIsValid }) => {
+  const handleCancel = () => {
+    setIsValid(true);
+  };
+  return (
+    <>
+      {ReactDOM.createPortal(
+        <ModalOverlay message={message} handleCancel={handleCancel} />,
+        document.getElementById("modal-root") as HTMLElement
+      )}
+    </>
   );
 };
 
